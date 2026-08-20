@@ -1,16 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-test("renders an SSR boot screen and dismisses it after hydration", async ({
-	page,
-	request,
-}) => {
-	const response = await request.get("/");
-	expect(await response.text()).toContain('id="app-loading-screen"');
-
-	await page.goto("/");
-	await expect(page.locator("#app-loading-screen")).toBeHidden();
-});
-
 test("shows a top progress indicator during client-side navigation", async ({
 	page,
 }) => {

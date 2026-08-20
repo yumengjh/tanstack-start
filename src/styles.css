@@ -24,29 +24,6 @@ a {
 button {
   font: inherit;
 }
-.app-loading-screen {
-  position: fixed;
-  z-index: 100;
-  inset: 0;
-  display: grid;
-  place-items: center;
-	background: var(--c-bg);
-	color: var(--c-text);
-	opacity: 0;
-	visibility: hidden;
-  transition:
-    opacity 0.32s ease,
-    visibility 0s linear 0.32s;
-}
-:root[data-app-loading-visible="true"] .app-loading-screen {
-  opacity: 1;
-  visibility: visible;
-}
-:root[data-app-ready="true"] .app-loading-screen {
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
 .page-navigation-progress {
   position: fixed;
   z-index: 60;
@@ -71,42 +48,6 @@ button {
 }
 .page-navigation-progress[data-active="false"][data-visible="true"] .page-navigation-progress__bar {
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.app-loading-screen__content {
-  display: grid;
-  justify-items: center;
-}
-.app-circle-loader svg {
-  width: 3.25em;
-  transform-origin: center;
-  animation: app-loader-rotate 2s linear infinite;
-}
-.app-circle-loader circle {
-  fill: none;
-  stroke: var(--c-primary);
-  stroke-width: 2;
-  stroke-dasharray: 1 200;
-  stroke-dashoffset: 0;
-  stroke-linecap: round;
-  animation: app-loader-dash 1.5s ease-in-out infinite;
-}
-@keyframes app-loader-rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes app-loader-dash {
-  0% {
-    stroke-dasharray: 1 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90 200;
-    stroke-dashoffset: -35px;
-  }
-  to {
-    stroke-dashoffset: -125px;
-  }
 }
 .app-header {
   position: sticky;
@@ -297,9 +238,6 @@ button {
   transform: translateY(-2px);
 }
 @media (prefers-reduced-motion: reduce) {
-  .app-loading-screen,
-  .app-circle-loader svg,
-  .app-circle-loader circle,
   .page-navigation-progress,
   .page-navigation-progress__bar {
     animation: none;

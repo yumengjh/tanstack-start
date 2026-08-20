@@ -9,6 +9,9 @@ import { defineConfig } from "vite";
 import { getSecurityHeaders } from "./src/lib/security.ts";
 
 const config = defineConfig(({ mode }) => ({
+	server: {
+		allowedHosts: true,
+	},
 	resolve: { tsconfigPaths: true },
 	plugins: [
 		devtools(),
