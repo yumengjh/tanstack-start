@@ -71,6 +71,7 @@ pnpm dev
 | `VITE_SITE_AUTHOR` | `Your team` | 页面 SEO `author` meta |
 | `VITE_SITE_GITHUB_URL` | `https://github.com/your-org/your-project` | 顶部导航和首页 CTA 的外链 |
 | `VITE_SITE_OG_IMAGE` | `/og-default.png` | SEO 使用的默认社交图片 URL；本地路径会在资产生成时写入 `public/` |
+| `VITE_SITE_TITLE_SEPARATOR` | ` | ` | 浏览器和社交标题中页面名与品牌名之间的分隔符 |
 | `VITE_SITE_NAVIGATION_PROGRESS` | `true` | 是否显示站内路由切换时的顶部进度条；设为 `false` 可完全关闭 |
 | `VITE_SITE_NAVIGATION_PROGRESS_DELAY_MS` | `120` | 路由 pending 多少毫秒后才显示顶部进度条；`0` 表示立即显示，最大 `10000` |
 
@@ -136,6 +137,7 @@ e2e/                      Playwright Chromium E2E
 `src/lib/seo.ts` 为六个公开页面生成以下内容：
 
 - title、description、keywords、author 和 `robots: index, follow`。
+- 页面标题按“页面名 + `VITE_SITE_TITLE_SEPARATOR` + `VITE_SITE_NAME`”组合；例如 `首页 ｜ YUMG`。
 - canonical URL。
 - `zh-CN`、`en-US` 与指向中文页的 `x-default` alternate links。
 - Open Graph：类型、站点名、URL、标题、描述与图片。

@@ -6,6 +6,7 @@ export interface PublicSiteEnvironment extends Record<string, unknown> {
 	VITE_SITE_NAVIGATION_PROGRESS?: string;
 	VITE_SITE_NAVIGATION_PROGRESS_DELAY_MS?: string;
 	VITE_SITE_OG_IMAGE?: string;
+	VITE_SITE_TITLE_SEPARATOR?: string;
 	VITE_SITE_URL?: string;
 }
 
@@ -17,6 +18,7 @@ const defaults = {
 	author: "Your team",
 	ogImage: "/og-default.png",
 	githubUrl: "https://github.com/your-org/your-project",
+	titleSeparator: " | ",
 	navigationProgress: true,
 	navigationProgressDelayMs: 120,
 } as const;
@@ -40,6 +42,10 @@ function configuredDelay(value: unknown, fallback: number) {
 		: fallback;
 }
 
+function configuredTitleSeparator(value: unknown, fallback: string) {
+	return typeof value === "string" && value.trim() ? value : fallback;
+}
+
 export function createSiteConfig(
 	env: PublicSiteEnvironment,
 	isProduction = false,
@@ -61,6 +67,10 @@ export function createSiteConfig(
 		author: configuredValue(env.VITE_SITE_AUTHOR, defaults.author),
 		ogImage: configuredValue(env.VITE_SITE_OG_IMAGE, defaults.ogImage),
 		githubUrl: configuredValue(env.VITE_SITE_GITHUB_URL, defaults.githubUrl),
+		titleSeparator: configuredTitleSeparator(
+			env.VITE_SITE_TITLE_SEPARATOR,
+			defaults.titleSeparator,
+		),
 		navigationProgress: configuredBoolean(
 			env.VITE_SITE_NAVIGATION_PROGRESS,
 			defaults.navigationProgress,

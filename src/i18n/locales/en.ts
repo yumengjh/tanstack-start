@@ -70,7 +70,7 @@ export const en = {
 	},
 	seo: {
 		home: {
-			title: "TanStack Start Template",
+			title: "Home",
 			description:
 				"A reusable bilingual application starter for TanStack Start.",
 			keywords: "TanStack Start, React, starter template, SEO, i18n",

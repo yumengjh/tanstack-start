@@ -8,6 +8,7 @@ describe("createSiteConfig", () => {
 			name: "TanStack Start Template",
 			url: "https://example.com",
 			ogImage: "/og-default.png",
+			titleSeparator: " | ",
 			navigationProgress: true,
 			navigationProgressDelayMs: 120,
 		});
@@ -25,6 +26,12 @@ describe("createSiteConfig", () => {
 		expect(
 			createSiteConfig({ VITE_SITE_NAVIGATION_PROGRESS_DELAY_MS: "fast" }),
 		).toMatchObject({ navigationProgressDelayMs: 120 });
+	});
+
+	it("preserves a custom title separator", () => {
+		expect(
+			createSiteConfig({ VITE_SITE_TITLE_SEPARATOR: " · " }),
+		).toMatchObject({ titleSeparator: " · " });
 	});
 
 	it("allows the navigation progress indicator to be disabled with a public environment variable", () => {

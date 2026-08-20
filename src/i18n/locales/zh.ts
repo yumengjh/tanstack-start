@@ -66,7 +66,7 @@ export const zh = {
 	},
 	seo: {
 		home: {
-			title: "TanStack Start Template",
+			title: "首页",
 			description: "可复用的 TanStack Start 双语应用启动模板。",
 			keywords: "TanStack Start, React, 启动模板, SEO, 国际化",
 		},

@@ -8,9 +8,22 @@ export interface PageSeoInput {
 	keywords: string;
 }
 
+export function formatPageTitle(
+	pageTitle: string,
+	siteName = siteConfig.name,
+	titleSeparator = siteConfig.titleSeparator,
+) {
+	return `${pageTitle}${titleSeparator}${siteName}`;
+}
+
 export function getPageSeo(input: PageSeoInput) {
 	const canonicalUrl = new URL(input.path, `${siteConfig.url}/`).toString();
 	const image = new URL(siteConfig.ogImage, `${siteConfig.url}/`).toString();
+	const title = formatPageTitle(
+		input.title,
+		siteConfig.name,
+		siteConfig.titleSeparator,
+	);
 
 	return {
 		canonicalUrl,
@@ -19,7 +32,7 @@ export function getPageSeo(input: PageSeoInput) {
 			...getAlternateLocaleLinks(input.path),
 		],
 		meta: [
-			{ title: input.title },
+			{ title },
 			{ name: "description", content: input.description },
 			{ name: "keywords", content: input.keywords },
 			{ name: "author", content: siteConfig.author },
@@ -27,11 +40,11 @@ export function getPageSeo(input: PageSeoInput) {
 			{ property: "og:type", content: "website" },
 			{ property: "og:site_name", content: siteConfig.name },
 			{ property: "og:url", content: canonicalUrl },
-			{ property: "og:title", content: input.title },
+			{ property: "og:title", content: title },
 			{ property: "og:description", content: input.description },
 			{ property: "og:image", content: image },
 			{ name: "twitter:card", content: "summary_large_image" },
-			{ name: "twitter:title", content: input.title },
+			{ name: "twitter:title", content: title },
 			{ name: "twitter:description", content: input.description },
 			{ name: "twitter:image", content: image },
 		],
@@ -66,7 +79,11 @@ export function getWebPageSchema(
 			{ "@type": "WebSite", name: siteConfig.name, url: siteConfig.url },
 			{
 				"@type": "WebPage",
-				name: input.title,
+				name: formatPageTitle(
+					input.title,
+					siteConfig.name,
+					siteConfig.titleSeparator,
+				),
 				description: input.description,
 				url,
 			},

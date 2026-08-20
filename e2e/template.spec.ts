@@ -23,7 +23,7 @@ test("renders localized SSR metadata and switches language", async ({ page }) =>
 
 	expect(response?.status()).toBe(200);
 	await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
-	await expect(page).toHaveTitle("TanStack Start Template");
+	await expect(page).toHaveTitle(/^首页 .+ .+$/);
 	await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
 		"href",
 		"https://example.com/",

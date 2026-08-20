@@ -1,5 +1,9 @@
 import { expect, it } from "vitest";
-import { getPageSeo } from "./seo";
+import { formatPageTitle, getPageSeo } from "./seo";
+
+it("puts the page name before the brand with a configurable separator", () => {
+	expect(formatPageTitle("首页", "YUMG", " ｜ ")).toBe("首页 ｜ YUMG");
+});
 
 it("creates absolute canonical and Open Graph URLs", () => {
 	const seo = getPageSeo({
