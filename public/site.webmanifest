@@ -1,0 +1,19 @@
+{
+  "name": "TanStack Start Template",
+  "short_name": "TanStack Start Template",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0071e3",
+  "background_color": "#f5f5f7",
+  "display": "standalone"
+}

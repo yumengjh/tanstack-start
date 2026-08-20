@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">TanStack Start Template</title>
+  <desc id="desc">A generic social image for a modern TanStack Start starter template.</desc>
+  <rect width="1200" height="630" fill="#050505"/>
+  <g fill="none" stroke="#85858b" stroke-width="2" opacity=".6"><path d="M72 60h360M72 60v500M1128 60H768M1128 60v500"/><path d="M72 550h440M1128 550H688" stroke-dasharray="8 12"/></g>
+  <text x="115" y="300" fill="#f5f5f7" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700">TanStack Start</text>
+  <text x="115" y="370" fill="#a1a1a6" font-family="Arial, Helvetica, sans-serif" font-size="38">Modern React Template</text>
+  <circle cx="1018" cy="330" r="80" fill="none" stroke="#2997ff" stroke-width="6"/>
+  <path d="M980 330h76M1018 292v76" stroke="#2997ff" stroke-width="6"/>
+</svg>
