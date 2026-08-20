@@ -8,7 +8,39 @@ describe("createSiteConfig", () => {
 			name: "TanStack Start Template",
 			url: "https://example.com",
 			ogImage: "/og-default.png",
+			loadingScreen: true,
+			loadingScreenDelayMs: 120,
+			navigationProgress: true,
+			navigationProgressDelayMs: 120,
 		});
+	});
+
+	it("supports independently configurable feedback delays and rejects invalid delay values", () => {
+		expect(
+			createSiteConfig({
+				VITE_SITE_LOADING_SCREEN_DELAY_MS: "0",
+				VITE_SITE_NAVIGATION_PROGRESS_DELAY_MS: "300",
+			}),
+		).toMatchObject({
+			loadingScreenDelayMs: 0,
+			navigationProgressDelayMs: 300,
+		});
+
+		expect(
+			createSiteConfig({ VITE_SITE_LOADING_SCREEN_DELAY_MS: "fast" }),
+		).toMatchObject({ loadingScreenDelayMs: 120 });
+	});
+
+	it("allows the first-load screen to be disabled with a public environment variable", () => {
+		expect(
+			createSiteConfig({ VITE_SITE_LOADING_SCREEN: "false" }),
+		).toMatchObject({ loadingScreen: false });
+	});
+
+	it("allows the navigation progress indicator to be disabled with a public environment variable", () => {
+		expect(
+			createSiteConfig({ VITE_SITE_NAVIGATION_PROGRESS: "false" }),
+		).toMatchObject({ navigationProgress: false });
 	});
 
 	it("normalizes a configured site URL and accepts public overrides", () => {

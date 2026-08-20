@@ -1,5 +1,34 @@
 import { expect, test } from "@playwright/test";
 
+test("renders an SSR boot screen and dismisses it after hydration", async ({
+	page,
+	request,
+}) => {
+	const response = await request.get("/");
+	expect(await response.text()).toContain('id="app-loading-screen"');
+
+	await page.goto("/");
+	await expect(page.locator("#app-loading-screen")).toBeHidden();
+});
+
+test("shows a top progress indicator during client-side navigation", async ({
+	page,
+}) => {
+	await page.route("**/FeaturesPage-*.js", async (route) => {
+		await new Promise((resolve) => setTimeout(resolve, 300));
+		await route.continue();
+	});
+
+	await page.goto("/");
+	const progress = page.locator("#page-navigation-progress");
+	await expect(progress).toHaveAttribute("data-active", "false");
+
+	await page.getByRole("link", { name: "功能", exact: true }).click();
+	await expect(progress).toHaveAttribute("data-active", "true");
+	await expect(page).toHaveURL(/\/features$/);
+	await expect(progress).toHaveAttribute("data-active", "false");
+});
+
 test("renders localized SSR metadata and switches language", async ({ page }) => {
 	const response = await page.goto("/");
 

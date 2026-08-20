@@ -15,6 +15,7 @@
 	--c-primary: #0066cc;
 	--c-primary-hover: #0077ed;
 	--c-primary-text: #fff;
+	--c-navigation-progress: #0071e3;
 	--ld-bg-card: #f5f5f7;
 	--ld-shadow: rgba(0, 0, 0, 0.04);
 	--ld-shadow-lg: rgba(0, 0, 0, 0.08);
@@ -30,6 +31,7 @@
 	--c-primary: #2997ff;
 	--c-primary-hover: #47a4ff;
 	--c-primary-text: #fff;
+	--c-navigation-progress: #2997ff;
 	--ld-bg-card: #161617;
 	--ld-shadow: rgba(0, 0, 0, 0.3);
 	--ld-shadow-lg: rgba(0, 0, 0, 0.5);
@@ -46,6 +48,7 @@
 		--c-primary: #2997ff;
 		--c-primary-hover: #47a4ff;
 		--c-primary-text: #fff;
+		--c-navigation-progress: #2997ff;
 		--ld-bg-card: #161617;
 		--ld-shadow: rgba(0, 0, 0, 0.3);
 		--ld-shadow-lg: rgba(0, 0, 0, 0.5);

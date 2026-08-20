@@ -1,6 +1,6 @@
 # TanStack Start Template
 
-这是一个基于 TanStack Start、React、Nitro 与 Tailwind CSS 的双语 Web 项目启动模板。当前模板已包含文件路由、SSR、站点元数据、深浅主题、可生成的社交图片与爬虫资产、基础安全头、健康检查、单元测试、Chromium E2E、CI 和依赖更新策略。
+这是一个基于 TanStack Start、React、Nitro 与 Tailwind CSS 的双语 Web 项目启动模板。当前模板已包含文件路由、SSR、站点元数据、深浅主题、可生成的社交图片与爬虫资产、可延迟显示的加载反馈、基础安全头、健康检查、单元测试、Chromium E2E、CI 和依赖更新策略。
 
 它是一个前端与 SSR 基线，不包含身份认证、用户系统、数据库、业务 API、状态管理框架或可观测性服务。
 
@@ -42,6 +42,7 @@ pnpm dev
 | 页面 | 首页、功能说明页、交互演示页、404 页面 |
 | 导航 | 顶部品牌链接、功能/演示/GitHub 链接、语言切换、主题切换；移动端隐藏 GitHub 导航项 |
 | 主题 | `auto`、`light`、`dark` 三态；保存至浏览器 localStorage，并随系统主题变化更新 `auto` 模式 |
+| 加载反馈 | 独立可关闭的首屏 Loader 与路由顶部进度条；仅超过各自阈值时显示，避免快网闪烁 |
 | SEO | 路由级 SSR head、canonical、Open Graph、Twitter Card、JSON-LD、`hreflang` |
 | 静态资产 | robots、sitemap、Web Manifest、SVG favicon、Apple Touch Icon、192/512 PNG 图标、默认 OG PNG |
 | 服务端 | `GET /health` 返回 `{ "status": "ok" }` |
@@ -70,6 +71,10 @@ pnpm dev
 | `VITE_SITE_AUTHOR` | `Your team` | 页面 SEO `author` meta |
 | `VITE_SITE_GITHUB_URL` | `https://github.com/your-org/your-project` | 顶部导航和首页 CTA 的外链 |
 | `VITE_SITE_OG_IMAGE` | `/og-default.png` | SEO 使用的默认社交图片 URL；本地路径会在资产生成时写入 `public/` |
+| `VITE_SITE_LOADING_SCREEN` | `true` | 是否显示首次整页访问的全屏启动动画；设为 `false` 可完全关闭 |
+| `VITE_SITE_LOADING_SCREEN_DELAY_MS` | `120` | 首屏等待多少毫秒后才显示加载动画；`0` 表示立即显示，最大 `10000` |
+| `VITE_SITE_NAVIGATION_PROGRESS` | `true` | 是否显示站内路由切换时的顶部进度条；设为 `false` 可完全关闭 |
+| `VITE_SITE_NAVIGATION_PROGRESS_DELAY_MS` | `120` | 路由 pending 多少毫秒后才显示顶部进度条；`0` 表示立即显示，最大 `10000` |
 
 `VITE_SITE_URL` 会被规范化为 origin，因此不要填写部署子路径；例如 `https://acme.example/docs/` 最终使用 `https://acme.example`。生产构建中它必须是 HTTPS URL；非 HTTPS 会导致站点配置初始化失败。
 
@@ -78,8 +83,8 @@ pnpm dev
 ```text
 src/
   routes/                 TanStack Router 文件路由；中文与 en 路由各自声明 SSR head
-  components/             Header、Footer、首页、功能页、演示页、语言/主题切换与 404 UI
-  config/                 VITE_SITE_* 配置读取、默认值和生产 URL 校验
+  components/             Header、Footer、可替换启动 Loader、顶部导航进度条、首页、功能页、演示页、语言/主题切换与 404 UI
+  config/                 VITE_SITE_* 配置读取、启动 Loader 与导航进度条开关/阈值、默认值和生产 URL 校验
   i18n/                   i18next 实例、zh/en 翻译资源和 URL 语言映射
   lib/                    SEO、主题解析和安全响应头纯函数
   styles.css              Tailwind 与 token 入口、响应式布局和 Apple 风格组件类
@@ -113,6 +118,7 @@ e2e/                      Playwright Chromium E2E
 `src/styles/tokens/theme.css` 是 CSS token 的专用位置，包含：
 
 - 亮色、暗色和系统暗色的 `--c-*` 颜色 token：背景、文字、边框、主色与交互色。
+- 独立的 `--c-navigation-progress` 顶部进度条 token，可在不影响品牌主色的情况下单独调整。
 - `--ld-*` 卡片背景与阴影 token。
 - Tailwind 使用的 `--font-sans` 字体 token。
 
@@ -122,6 +128,10 @@ e2e/                      Playwright Chromium E2E
 - 粘性半透明导航、响应式页面容器、卡片悬停效果和小屏布局规则。
 
 样式以 Tailwind CSS v4 的 Vite 插件为基础，页面还直接使用 Tailwind 工具类。后续新增 CSS 变量请放入 `src/styles/tokens/` 下按职责拆分的文件，并从 `src/styles.css` 引入；修改品牌视觉时应优先替换 token，而不是在组件中硬编码颜色。
+
+首次整页访问时，根布局会先服务端输出全屏启动遮罩，但仅当 hydration 未在 `VITE_SITE_LOADING_SCREEN_DELAY_MS`（默认 120ms）内完成时才显示。默认 Loader 是使用主题主色的环形 SVG，组件入口为 `src/components/AppLoadingScreen.tsx`，可在 `src/config/app-loading.ts` 中替换为任意无状态 React 组件。`VITE_SITE_LOADING_SCREEN=false` 会完全关闭该能力，设为 `0` 则立即显示。JavaScript 不可用时会由 `noscript` 隐藏，客户端资源异常时也会在超时后让出已 SSR 的页面内容，因此弱网下不会由遮罩永久阻塞页面。
+
+站内路由切换时，`NavigationProgress` 读取 TanStack Router 的 `isLoading` 状态，仅当 pending 超过 `VITE_SITE_NAVIGATION_PROGRESS_DELAY_MS`（默认 120ms）时才显示 2px `--c-navigation-progress` 主题 token 进度条。该 token 在亮色、暗色和系统主题分支中独立定义，可单独换色；进度条通过 `requestAnimationFrame` 连续推进，并按指数缓出曲线逼近完成。路由模块、未来的 loader 或浏览器返回触发的 pending 状态结束后补至 100% 并自动收起。`VITE_SITE_NAVIGATION_PROGRESS=false` 可关闭该能力，设为 `0` 则立即显示。
 
 ## SEO、OG 与静态资产
 
@@ -234,9 +244,9 @@ Playwright 测试运行已构建的 Nitro 产物，固定使用 `127.0.0.1:4173`
 
 ### 当前测试覆盖
 
-Vitest 使用 Node 环境，当前共有 13 项测试，覆盖：
+Vitest 使用 Node 环境，当前共有 16 项测试，覆盖：
 
-- `VITE_SITE_*` 默认值、覆盖值、URL origin 规范化与 production HTTPS 限制。
+- `VITE_SITE_*` 默认值、覆盖值、加载反馈开关/阈值、URL origin 规范化与 production HTTPS 限制。
 - 中英文 URL 映射。
 - `auto` 主题解析。
 - 基础安全头与仅生产环境的 HSTS。
@@ -244,7 +254,7 @@ Vitest 使用 Node 环境，当前共有 13 项测试，覆盖：
 - OG 命令生成有效 PNG。
 - 站点资产命令生成可配置的 robots、sitemap、manifest 和本地 OG PNG。
 
-Playwright 有 2 项 Chromium E2E，覆盖中文首页的 SSR 状态、canonical、英文 alternate link、语言切换、英文页面内容、404 的 noindex、`/health` JSON 以及关键安全响应头。
+Playwright 有 4 项 Chromium E2E，覆盖启动遮罩的 SSR 输出与 hydration 后收起、客户端导航的顶部进度条、中文首页的 SSR 状态、canonical、英文 alternate link、语言切换、英文页面内容、404 的 noindex、`/health` JSON 以及关键安全响应头。
 
 ### CI 与依赖更新
 
