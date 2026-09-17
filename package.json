@@ -41,17 +41,17 @@
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
-    "@playwright/test": "1.62.1",
+    "@biomejs/biome": "2.5.13",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/typography": "0.5.20",
-    "@tanstack/devtools-vite": "0.8.3",
-    "@tanstack/router-cli": "1.167.30",
-    "@types/node": "22.20.1",
+    "@tanstack/devtools-vite": "0.8.5",
+    "@tanstack/router-cli": "1.167.36",
+    "@types/node": "26.5.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
-    "@vitejs/plugin-react": "6.0.5",
-    "typescript": "6.0.3",
-    "vite": "8.2.1",
-    "vitest": "4.1.10"
+    "@vitejs/plugin-react": "6.1.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.0",
+    "vitest": "5.0.0"
   }
 }
